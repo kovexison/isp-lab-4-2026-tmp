@@ -1,8 +1,41 @@
 package edu.tucn.aut.isp.lab4.exercise1;
 
+import java.time.LocalTime;
+
 public class AquariumController {
 
-    //attributs
-    //constructors
-    //methods
+    private String manufacturer;
+    private String model;
+    private LocalTime currentTime;
+
+    public AquariumController(String manufacturer, String model, LocalTime currentTime) {
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.currentTime = currentTime;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public LocalTime getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(LocalTime currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    @Override
+    public String toString() {
+        return "AquariumController{" +
+                "manufacturer='" + manufacturer + '\'' +
+                ", model='" + model + '\'' +
+                ", currentTime=" + currentTime +
+                '}';
+    }
 }
