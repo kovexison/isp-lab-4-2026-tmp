@@ -52,7 +52,32 @@ If it is, then it triggers the feed operation. The time is represented as a Loca
 
 
 ## Exercise 4
-![Exercise 4 image](docs/ex4.jpg)
+```mermaid
+classDiagram
+    class AquariumController {
+        -String manufacturer
+        -String model
+        -LocalTime currentTime
+        -LocalTime feedingTime
+        -LocalTime lightOnTime
+        -LocalTime lightsOffTime
+        +setCurrentTime(LocalTime)
+    }
+    class FishFeeder {
+        -String manufacturer
+        -String model
+        -int meals
+        +feed()
+        +fillUp()
+    }
+    class Lights {
+        -boolean isOn
+        +turnOn()
+        +turnOff()
+    }
+    AquariumController --> FishFeeder
+    AquariumController --> Lights
+```
 
 Extend exercise 3 and implement the aquarium's lights control.
 Algae can be a real problem in any aquarium, and to much light time will boost their growth.
@@ -87,7 +112,61 @@ That is why the association uses the concrete implementation (i.e., in *Aquarium
 In the case of the _Actuator_-s, they can be treated the same - the association is done through the base class (i.e., in *AquariumController* you will have 2 _Actuator_ attributes).
 
 ## Exercise 6 
-![Exercise 6 image](docs/ex6.jpg)
+```mermaid
+classDiagram
+    class AquariumController {
+        -String manufacturer
+        -String model
+        -LocalTime currentTime
+        -LocalTime feedingTime
+        -int presetTemperature
+        -float presetLevel
+        +setCurrentTime(LocalTime)
+        +checkWaterLevel()
+        +checkTemperature()
+        +checkPh()
+    }
+    class FishFeeder {
+        -String manufacturer
+        -String model
+        -int meals
+        +feed()
+        +fillUp()
+    }
+    class Sensor {
+        -String manufacturer
+        -String model
+    }
+    class LevelSensor {
+        -int value
+    }
+    class TemperatureSensor {
+        -float value
+    }
+    class PhSensor {
+        -float value
+    }
+    class Actuator {
+        -String manufacturer
+        -String model
+        -boolean isOn
+        +turnOn()
+        +turnOff()
+    }
+    class Alarm
+    class Heater
+
+    Sensor <|-- LevelSensor
+    Sensor <|-- TemperatureSensor
+    Sensor <|-- PhSensor
+    Actuator <|-- Alarm
+    Actuator <|-- Heater
+    AquariumController --> FishFeeder
+    AquariumController --> LevelSensor
+    AquariumController --> TemperatureSensor
+    AquariumController --> PhSensor
+    AquariumController --> Actuator
+```
 
 Modify exercise 5 and add pH monitoring/control.
 Determine if it's possible to change the water pH without killing the fish.
@@ -95,4 +174,3 @@ If it can be done implement the control. If not, only raise an alarm.
 
 1. Create the new class diagram. Export the diagram as **ex6.jpg** and place it in **docs** dir.
 2. Implement the code and the unit tests accordingly. 
-

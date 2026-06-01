@@ -1,12 +1,16 @@
 package edu.tucn.aut.isp.lab4.exercise6;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.time.LocalTime;
 
-public class Exercise6 {
-    public static void main(String[] args) {
-        FishFeeder feeder = new FishFeeder("AquaCorp", "F400", 5);
-        LevelSensor levelSensor = new LevelSensor("AquaCorp", "L200", 8);
-        TemperatureSensor temperatureSensor = new TemperatureSensor("AquaCorp", "T200", 23.0f);
+class AquariumControllerTest {
+
+    @Test
+    void phOutOfRangeTurnsOnAlarm() {
+        LevelSensor levelSensor = new LevelSensor("AquaCorp", "L200", 12);
+        TemperatureSensor temperatureSensor = new TemperatureSensor("AquaCorp", "T200", 25.0f);
         PhSensor phSensor = new PhSensor("AquaCorp", "P200", 6.0f);
         Alarm alarm = new Alarm("AquaCorp", "AL2");
         Heater heater = new Heater("AquaCorp", "H2");
@@ -15,7 +19,7 @@ public class Exercise6 {
         AquariumController controller = new AquariumController(
                 "AquaCorp",
                 "A4000",
-                feeder,
+                new FishFeeder("AquaCorp", "F400", 3),
                 LocalTime.of(12, 0),
                 LocalTime.of(11, 0),
                 24,
@@ -27,9 +31,11 @@ public class Exercise6 {
                 heater,
                 phAlarm);
 
-        controller.checkWaterLevel();
-        controller.checkTemperature();
         controller.checkPh();
-        System.out.println("pH alarm on: " + phAlarm.isOn());
+        Assertions.assertTrue(phAlarm.isOn());
+
+        phSensor.setValue(7.0f);
+        controller.checkPh();
+        Assertions.assertFalse(phAlarm.isOn());
     }
 }
